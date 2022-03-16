@@ -18,10 +18,10 @@ class Timer {
 	start = () => {
 		console.log('START', this);
 		this.onStart();
-		this.tick;
+		this.tick();
 		this.interval = setInterval(() => {
 			this.tick();
-		}, 1000);
+		}, 50);
 	};
 	pause = () => {
 		this.onPause();
@@ -33,7 +33,7 @@ class Timer {
 		//	console.log('tick');
 		if (this.timerDur <= 0) return clearInterval(this.interval);
 		this.onTick();
-		this.timerDur = this.timerDur - 1;
+		this.timerDur = this.timerDur - 0.05;
 	};
 
 	get timerDur() {
@@ -41,6 +41,6 @@ class Timer {
 		return parseFloat(this.inType.value);
 	}
 	set timerDur(time) {
-		this.inType.value = time;
+		this.inType.value = time.toFixed(2);
 	}
 }
