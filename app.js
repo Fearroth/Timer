@@ -6,7 +6,7 @@ const pauseButton = document.querySelector('#pauseButton');
 const circle = document.querySelector('circle');
 
 //circle.setAttribute('stroke-dashoffset', '200');
-let offsetTick = 50;
+let offsetTick = 0;
 const timer = new Timer(inType, playButton, pauseButton, {
 	onTick() {
 		const offset = parseFloat(circle.getAttribute('stroke-dashoffset')) - offsetTick;
@@ -14,8 +14,10 @@ const timer = new Timer(inType, playButton, pauseButton, {
 	},
 	onStart() {
 		console.log('2');
-		offsetTick = parseInt(circle.getAttribute('stroke-dasharray')) / parseInt(inType.value) / 20; // perimeter divided by time by ticks per s
-		console.log(offsetTick);
+		if (offsetTick === 0) {
+			offsetTick = parseInt(circle.getAttribute('stroke-dasharray')) / parseInt(inType.value) / 20; // perimeter divided by time by ticks per s
+			console.log(offsetTick, 'offset tick');
+		}
 	},
 	onPause() {
 		console.log('3');
@@ -24,3 +26,8 @@ const timer = new Timer(inType, playButton, pauseButton, {
 
 //console.log(timer.inType.value);
 //stroke-dasharray
+
+console.log('poprawic css zlozyc w calosc');
+console.log('przypisac do zmiennych wartosc pierscienia/ ticku, promien nie moze byc zapisany jako %?');
+//console.log('offset przyspiesza z kazdym kliknieciem start'); ok
+//console.log('poprawic css zlozyc w calosc');

@@ -5,8 +5,10 @@ class Timer {
 		this.pauseButton = pauseButton;
 
 		this.playButton.addEventListener('click', this.start);
+		this.startOn = false;
+		this.pauseOn = false;
 		this.pauseButton.addEventListener('click', this.pause);
-		this.inType.value = '0';
+		this.inType.value = '5';
 
 		if (callbacks) {
 			this.onTick = callbacks.onTick;
@@ -16,6 +18,12 @@ class Timer {
 	}
 
 	start = () => {
+		if (this.pauseOn === true) this.pause();
+		if (this.startOn === true) {
+			return;
+		}
+
+		this.startOn = true;
 		console.log('START', this);
 		this.onStart();
 		this.tick();
@@ -24,14 +32,29 @@ class Timer {
 		}, 50);
 	};
 	pause = () => {
-		this.onPause();
-		console.log('pause', this);
-		clearInterval(this.interval);
+		if (this.pauseOn === false) {
+			this.onPause();
+			console.log('pause', this);
+			clearInterval(this.interval);
+			this.pauseOn = true;
+		} else {
+			this.pauseOn = false;
+			this.onStart();
+			this.tick();
+			this.interval = setInterval(() => {
+				this.tick();
+			}, 50);
+		}
+		//this.startOn = false;
 	};
 	tick = () => {
 		//let time = inType.getAttribute('value');
 		//	console.log('tick');
-		if (this.timerDur <= 0) return clearInterval(this.interval);
+		if (this.timerDur <= 0) {
+			this.startOn = false;
+			offsetTick = 0;
+			return clearInterval(this.interval);
+		}
 		this.onTick();
 		this.timerDur = this.timerDur - 0.05;
 	};
