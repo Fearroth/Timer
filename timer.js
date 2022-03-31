@@ -18,11 +18,9 @@ class Timer {
 	}
 
 	start = () => {
-		if (this.pauseOn === true) this.pause();
-		if (this.startOn === true) {
-			return;
-		}
-
+		//if (this.pauseOn === true) this.pause();
+		if (this.startOn === true) return;
+		inType.disabled = true;
 		this.startOn = true;
 		console.log('START', this);
 		this.onStart();
@@ -32,12 +30,16 @@ class Timer {
 		}, 50);
 	};
 	pause = () => {
+		if (this.startOn === false) return;
+
 		if (this.pauseOn === false) {
+			inType.disabled = false;
 			this.onPause();
 			console.log('pause', this);
 			clearInterval(this.interval);
 			this.pauseOn = true;
-		} else {
+		} else if ((this.pauseOn = true)) {
+			inType.disabled = true;
 			this.pauseOn = false;
 			this.onStart();
 			this.tick();
@@ -56,7 +58,7 @@ class Timer {
 			return clearInterval(this.interval);
 		}
 		this.onTick();
-		this.timerDur = this.timerDur - 0.05;
+		this.timerDur = this.timerDur - 0.05 < 0 ? 0 : this.timerDur - 0.05;
 	};
 
 	get timerDur() {
